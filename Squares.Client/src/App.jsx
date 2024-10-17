@@ -12,7 +12,15 @@ function App()
     {
         // Since the size requirement will be linear, we can use the sqrt of the NO items combined with rounding upwards to get the needed row length in one swoop
         setRowLength(Math.ceil(Math.sqrt(squares.length + 1)));
-        setSquares((prevSquares) => [...prevSquares, new SquareDTO(prevSquares.length + 1, randomHexColor())]);
+
+        // Satisfy condition of not having the same color twice in a row
+        let generatedColor = "";
+        while (squares[-1]?.color === generatedColor || generatedColor === "")
+        {
+            generatedColor = randomHexColor();
+        }
+
+        setSquares((prevSquares) => [...prevSquares, new SquareDTO(prevSquares.length + 1, generatedColor)]);
     };
 
     return (
