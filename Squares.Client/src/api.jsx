@@ -38,8 +38,6 @@ export async function postBlockAsync(block)
         {
             throw new Error(`Failed to post data (addBlock): ${response.status} ${response.statusText}`);
         }
-
-        return await response.json();
     } catch (error)
     {
         console.error("Error in postBlockAsync:", error);

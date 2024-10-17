@@ -9,16 +9,15 @@ export default function app()
 
     const fetchData = async () =>
     {
-        const squareArray = await getBlockAsync();
-
         try
         {
+            const squareArray = await getBlockAsync();
             setSquares(squareArray);
+
         }
         catch (e)
         {
-            const retryAfter = 5; // 5 seconds
-            console.log(e);
+            const retryAfter = 1; // Seconds
             console.log(`Retry in: ${retryAfter} seconds`);
             setTimeout(() => fetchData(), retryAfter * 1000);
         }
@@ -44,13 +43,7 @@ export default function app()
 
         // Create a new block and post it
         const newBlock = new Block(squares.length + 1, hexColor);
-        try
-        {
-            await postBlockAsync(newBlock);
-        } catch (e)
-        {
-            console.log(e);
-        }
+        await postBlockAsync(newBlock);
 
         // Refresh data to include the newly added block
         fetchData();

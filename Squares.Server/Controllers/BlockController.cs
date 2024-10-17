@@ -12,7 +12,7 @@ public class BlockController : ControllerBase
 
     public BlockController(StorageService storageService)
     {
-        this._storageService = storageService;
+        _storageService = storageService;
     }
 
     /// <summary>

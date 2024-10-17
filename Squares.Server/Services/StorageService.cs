@@ -72,10 +72,11 @@ public class StorageService
             }
             catch (Exception ex)
             {
+                // Real logging would be better here, but for simplicity, we'll just write to the console
                 Console.WriteLine($"Error reading JSON file: {ex.Message}");
             }
 
-            return new List<User>();  // Return an empty list if file doesn't exist or is invalid
+            return new List<User>();
         }
     }
 
@@ -92,6 +93,7 @@ public class StorageService
         }
         catch (Exception ex)
         {
+            // Real logging would be better here, but for simplicity, we'll just write to the console
             Console.WriteLine($"Error writing to JSON file: {ex.Message}");
         }
     }
