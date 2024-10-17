@@ -10,6 +10,12 @@ var app = builder.Build();
 
 app.UseAuthorization();
 
+app.MapAreaControllerRoute(
+       name: "default",
+       areaName: "api",
+       pattern: "api/{controller=Square}/{action=getSquares}"
+);
+
 app.MapControllers();
 
 app.Run();

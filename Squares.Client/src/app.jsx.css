@@ -38,7 +38,7 @@ SPACING SYSTEM (px)
     gap: 1rem;
 }
 
-.grid-item {
+.grid-block {
     background-color: blue;
     width: 1rem;
     height: 1rem;

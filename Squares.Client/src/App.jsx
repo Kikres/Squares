@@ -1,38 +1,54 @@
 ﻿import { useEffect, useState } from 'react';
-import SquareDTO from '../models/squareDTO';
 import { randomHexColor } from './util.jsx';
-import './App.css';
+import './app.jsx.css';
+import { Square, getBlockAsync, postBlockAsync } from './api.jsx';
 
-function App()
+export default function app()
 {
     const [squares, setSquares] = useState([]);
-    const [rowLength, setRowLength] = useState(0);
 
-    const buttonHandler = () =>
+    // Fetch data on component mount
+    useEffect(() =>
     {
-        // Since the size requirement will be linear, we can use the sqrt of the NO items combined with rounding upwards to get the needed row length in one swoop
-        setRowLength(Math.ceil(Math.sqrt(squares.length + 1)));
+        async function fetchData()
+        {
+            const squareArray = await getBlockAsync();
+            setSquares(squareArray);
+        }
+        fetchData();
+    }, []);
 
-        // Satisfy condition of not having the same color twice in a row
+    // One block equals one unit, a completed square follows x^2 whre x is width in units. width = sqrt(no of units), round up to stay within integer domain.
+    const rowLength = Math.ceil(Math.sqrt(squares.length));
+
+    const buttonHandler = async () =>
+    {
+        // Guard against generating the same color twice in a row
         let generatedColor = "";
         while (squares[-1]?.color === generatedColor || generatedColor === "")
         {
             generatedColor = randomHexColor();
         }
 
-        setSquares((prevSquares) => [...prevSquares, new SquareDTO(prevSquares.length + 1, generatedColor)]);
+        // Create a new block and post it
+        const newBlock = new Square(squares.length + 1, generatedColor);
+        await postBlockAsync(newBlock);
+
+        // Trigger re-render
+        setSquares((prevBlocks) => [...prevBlocks, newBlock]);
     };
 
     return (
         <div className="main">
+            {/*<div>⟳</div>*/}
             <div className="grid-container" style={{ gridTemplateColumns: `repeat(${rowLength}, 1fr)` }}>
-                {squares.map((square) => (
+                {squares.map((block) => (
                     <div
-                        className="grid-item"
-                        style={{ backgroundColor: square.color }}
-                        key={square.position}
+                        className="grid-block"
+                        style={{ backgroundColor: block.hexColor }}
+                        key={block.position}
                     >
-                        {square.position}
+                        {block.position}
                     </div>
                 ))}
             </div>
@@ -40,5 +56,3 @@ function App()
         </div>
     );
 }
-
-export default App;
