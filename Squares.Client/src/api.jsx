@@ -1,28 +1,49 @@
+const BASE_URL = `/api/`;
+
 export async function getBlockAsync()
 {
-    const response = await fetch(`api/block`);
-
-    if (!response.ok)
+    try
     {
-        throw new Response("Failed to fetch data (getBlocks)", response.status);
+        const response = await fetch(BASE_URL + "block");
+        if (!response.ok)
+        {
+            throw new Error(`Failed to fetch data (getBlocks): ${response.status} ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error)
+    {
+        console.error("Error in getBlockAsync:", error);
+        throw error;
     }
-
-    return response.json();
 }
 
 export async function postBlockAsync(block)
 {
-    const response = await fetch(`api/block`, {
-        method: "POST",
-        body: JSON.stringify(block),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-
-    if (!response.ok)
+    if (!block || !block.position || !block.hexColor)
     {
-        throw new Response("Failed to post data (addBlock)", response.status);
+        throw new Error("Invalid block data");
+    }
+
+    try
+    {
+        const response = await fetch(BASE_URL + "block", {
+            method: "POST",
+            body: JSON.stringify(block),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok)
+        {
+            throw new Error(`Failed to post data (addBlock): ${response.status} ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error)
+    {
+        console.error("Error in postBlockAsync:", error);
+        throw error;
     }
 }
 

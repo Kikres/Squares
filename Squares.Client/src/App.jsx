@@ -10,7 +10,18 @@ export default function app()
     const fetchData = async () =>
     {
         const squareArray = await getBlockAsync();
-        setSquares(squareArray);
+
+        try
+        {
+            setSquares(squareArray);
+        }
+        catch (e)
+        {
+            const retryAfter = 5; // 5 seconds
+            console.log(e);
+            console.log(`Retry in: ${retryAfter} seconds`);
+            setTimeout(() => fetchData(), retryAfter * 1000);
+        }
     };
 
     // Fetch data on component mount
@@ -33,7 +44,13 @@ export default function app()
 
         // Create a new block and post it
         const newBlock = new Block(squares.length + 1, hexColor);
-        await postBlockAsync(newBlock);
+        try
+        {
+            await postBlockAsync(newBlock);
+        } catch (e)
+        {
+            console.log(e);
+        }
 
         // Refresh data to include the newly added block
         fetchData();

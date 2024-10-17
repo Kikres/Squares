@@ -68,7 +68,7 @@ public class BlockController : ControllerBase
 
             var cookieOptions = new CookieOptions
             {
-                Expires = DateTimeOffset.UtcNow.AddHours(2), // Expiration of 2 hours is enough for this example
+                Expires = DateTimeOffset.UtcNow.AddYears(1),
                 HttpOnly = true,
                 Secure = true,
                 IsEssential = true

@@ -40,7 +40,7 @@ export default defineConfig({
         // Proxy to the ASP.NET Core backend
         proxy: {
             '^/api': {
-                target: "http://localhost:5085/",
+                target: "http://localhost:5085",
                 secure: false
             }
         },
