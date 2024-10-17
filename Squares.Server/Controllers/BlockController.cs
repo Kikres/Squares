@@ -1,37 +1,82 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Squares.server.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Squares.Server.Models;
+using Squares.Server.Services;
 
-namespace Squares.server.Controllers
+namespace Squares.server.Controllers;
+
+[Area("api")]
+[Route("api/[controller]")]
+public class BlockController : ControllerBase
 {
-    [Area("api")]
-    [Route("api/[controller]")]
-    public class BlockController : ControllerBase
+    private StorageService _storageService;
+
+    public BlockController(StorageService storageService)
     {
-        public List<BlockDto> TestList { get; set; }
+        this._storageService = storageService;
+    }
 
-        public BlockController()
+    /// <summary>
+    /// Retrieves the list of blocks for the current user or session.
+    /// </summary>
+    /// <returns>A list of BlockDto objects.</returns>
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult GetBlocks()
+    {
+        var userId = SolveUserId();
+        var data = _storageService.LoadUserBlocks(userId);
+        return Ok(data);
+    }
+
+    /// <summary>
+    /// Adds a new block to the user's block list.
+    /// </summary>
+    /// <param name="blockDto">BlockDto containing the block data.</param>
+    /// <returns>Status 200 OK if successful.</returns>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public IActionResult AddBlock([FromBody]BlockDto blockDto)
+    {
+        var userId = SolveUserId();
+
+        var blockList = _storageService.LoadUserBlocks(userId);
+        var blockEntity = new Block(blockDto);
+
+        // Validate the block data
+        if (blockEntity.Position <= blockList.Count)
         {
-            TestList = new List<BlockDto>
+            blockEntity.Position = blockList.Count + 1;
+        }
+
+        blockList.Add(blockEntity);
+
+        _storageService.UpsertUserBlocks(userId, blockList);
+        return Ok();
+    }
+
+    /// <summary>
+    /// Retrieves the user ID from the cookies, or generates a new one if it doesn't exist.
+    /// </summary>
+    /// <returns>A user ID string, either from an existing cookie or newly generated.</returns>
+    private string SolveUserId()
+    {
+        // Check for cookie, create if there is none
+        if (!Request.Cookies.TryGetValue("UserId", out string? userId))
+        {
+            userId = Guid.NewGuid().ToString();
+
+            var cookieOptions = new CookieOptions
             {
-                new BlockDto { Position = 1, HexColor = "#FF0000" },
-                new BlockDto { Position = 2, HexColor = "#00FF00" },
-                new BlockDto { Position = 3, HexColor = "#0000FF" },
-                new BlockDto { Position = 4, HexColor = "#0000FF" }
+                Expires = DateTimeOffset.UtcNow.AddHours(2), // Expiration of 2 hours is enough for this example
+                HttpOnly = true,
+                Secure = true,
+                IsEssential = true
             };
+
+            Response.Cookies.Append("UserId", userId, cookieOptions);
         }
 
-        [HttpGet]
-        public IActionResult GetBlocks()
-        {
-            return Ok(TestList);
-        }
-
-        [HttpPost]
-        public IActionResult AddBlock([FromBody]BlockDto blockDto)
-        {
-            TestList.Add(blockDto);
-            return Ok();
-        }
+        return userId;
     }
 }

@@ -26,7 +26,7 @@ export async function postBlockAsync(block)
     }
 }
 
-export class Square
+export class Block
 {
     constructor(position, hexColor)
     {

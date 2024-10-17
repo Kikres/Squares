@@ -1,20 +1,21 @@
 ﻿import { useEffect, useState } from 'react';
+import { Block, getBlockAsync, postBlockAsync } from './api.jsx';
 import { randomHexColor } from './util.jsx';
 import './app.jsx.css';
-import { Square, getBlockAsync, postBlockAsync } from './api.jsx';
 
 export default function app()
 {
     const [squares, setSquares] = useState([]);
 
+    const fetchData = async () =>
+    {
+        const squareArray = await getBlockAsync();
+        setSquares(squareArray);
+    };
+
     // Fetch data on component mount
     useEffect(() =>
     {
-        async function fetchData()
-        {
-            const squareArray = await getBlockAsync();
-            setSquares(squareArray);
-        }
         fetchData();
     }, []);
 
@@ -24,23 +25,22 @@ export default function app()
     const buttonHandler = async () =>
     {
         // Guard against generating the same color twice in a row
-        let generatedColor = "";
-        while (squares[-1]?.color === generatedColor || generatedColor === "")
+        let hexColor = "";
+        while (squares[squares.length - 1]?.hexColor === hexColor || hexColor === "")
         {
-            generatedColor = randomHexColor();
+            hexColor = randomHexColor();
         }
 
         // Create a new block and post it
-        const newBlock = new Square(squares.length + 1, generatedColor);
+        const newBlock = new Block(squares.length + 1, hexColor);
         await postBlockAsync(newBlock);
 
-        // Trigger re-render
-        setSquares((prevBlocks) => [...prevBlocks, newBlock]);
+        // Refresh data to include the newly added block
+        fetchData();
     };
 
     return (
         <div className="main">
-            {/*<div>⟳</div>*/}
             <div className="grid-container" style={{ gridTemplateColumns: `repeat(${rowLength}, 1fr)` }}>
                 {squares.map((block) => (
                     <div
