@@ -73,6 +73,7 @@ public class StorageService
             catch (Exception ex)
             {
                 // Real logging would be better here, but for simplicity, we'll just write to the console
+
                 Console.WriteLine($"Error reading JSON file: {ex.Message}");
             }
 
