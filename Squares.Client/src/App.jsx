@@ -58,7 +58,6 @@ export default function app()
                         style={{ backgroundColor: block.hexColor }}
                         key={block.position}
                     >
-                        {block.position}
                     </div>
                 ))}
             </div>
