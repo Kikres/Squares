@@ -54,7 +54,7 @@ The React app will run on `http://localhost:5173`.
 - **Request Body**:
   ```json
   {
-    "position": { "x": 10, "y": 20 },
+    "position": 1,
     "color": "#ff5733"
   }
   ```
