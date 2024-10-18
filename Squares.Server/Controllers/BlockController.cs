@@ -16,7 +16,7 @@ public class BlockController : ControllerBase
     }
 
     /// <summary>
-    /// Retrieves the list of blocks for the current user or session.
+    /// Retrieves the list of blocks for the user.
     /// </summary>
     /// <returns>A list of BlockDto objects.</returns>
     [HttpGet]
@@ -24,8 +24,11 @@ public class BlockController : ControllerBase
     public IActionResult GetBlocks()
     {
         var userId = SolveUserId();
-        var data = _storageService.LoadUserBlocks(userId);
-        return Ok(data);
+
+        var blockList = _storageService.LoadUserBlocks(userId);
+        var blockDtoList = blockList.Select(o => new BlockDto(o));
+
+        return Ok(blockDtoList);
     }
 
     /// <summary>
@@ -39,16 +42,20 @@ public class BlockController : ControllerBase
     public IActionResult AddBlock([FromBody]BlockDto blockDto)
     {
         var userId = SolveUserId();
-
         var blockList = _storageService.LoadUserBlocks(userId);
-        var blockEntity = new Block(blockDto);
 
         // Validate the block data
-        if (blockEntity.Position <= blockList.Count)
+        if (blockDto.Position <= blockList.Count)
         {
-            blockEntity.Position = blockList.Count + 1;
+            blockDto.Position = blockList.Count + 1;
         }
 
+        if (string.IsNullOrEmpty(blockDto.HexColor))
+        {
+            return BadRequest("HexColor cannot be empty.");
+        }
+
+        var blockEntity = new Block(blockDto);
         blockList.Add(blockEntity);
 
         _storageService.UpsertUserBlocks(userId, blockList);
