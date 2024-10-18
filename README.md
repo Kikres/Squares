@@ -1,4 +1,4 @@
-This project is a web application that dynamically generates squares with random colors upon each button click. It is built with React.js on the frontend and a .NET/C# API for the backend. The position and color of each square are stored in a JSON file, allowing the layout to persist across page reloads.
+This project is a web application that dynamically generates blocks with random colors upon each button click in a square formation. It is built with React.js on the frontend and a .NET/C# API for the backend. The position and color of each square are stored in a JSON file, allowing the layout to persist across page reloads.
   
 ## Technologies Used
 
