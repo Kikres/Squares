@@ -50,7 +50,7 @@ export default function App()
 
     return (
         <div className="main">
-            <div>
+            <div class="button-container">
                 <button onClick={addButtonHandler}>Lägg till ruta</button>
                 <button onClick={clearButtonHandler}>Rensa</button>
             </div>
