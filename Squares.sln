@@ -9,7 +9,7 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "squares.client", "Squares.C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB7B8241-B95D-4AC2-A49C-1DDDC9F1CB03}"
 	ProjectSection(SolutionItems) = preProject
-		WHY.txt = WHY.txt
+		info.txt = info.txt
 	EndProjectSection
 EndProject
 Global
