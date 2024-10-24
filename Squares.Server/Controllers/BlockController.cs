@@ -47,7 +47,7 @@ public class BlockController : ControllerBase
     /// </remarks>
     /// <param name="blockDto">The block data to be added, represented by a <see cref="BlockDto"/> object.</param>
     /// <response code="200">The block was successfully added to the user's block list.</response>
-    /// <response code="400">Returns a bad request if the block's data is invalid (e.g., missing HexColor).</response>
+    /// <response code="400">Returns a bad request if the block's data is invalid (e.g. missing HexColor).</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,9 +62,14 @@ public class BlockController : ControllerBase
             blockDto.Position = blockList.Count + 1;
         }
 
-        if (string.IsNullOrEmpty(blockDto.HexColor) || !Regex.Match(blockDto.HexColor, @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$").Success)
+        if (string.IsNullOrEmpty(blockDto.HexColor))
         {
             return BadRequest("HexColor cannot be empty.");
+        }
+
+        if (!Regex.Match(blockDto.HexColor, @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$").Success)
+        {
+            return BadRequest("HexColor incorrectly formatted.");
         }
 
         var blockEntity = new Block(blockDto);

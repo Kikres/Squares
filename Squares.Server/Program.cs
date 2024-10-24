@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Squares.Server.Services;
 using System.Reflection;
