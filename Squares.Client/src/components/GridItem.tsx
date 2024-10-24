@@ -1,4 +1,4 @@
-﻿export default function GridItem(itemPosition: number, content: JSX.Element)
+﻿export default function GridItem({ itemPosition, content }: { itemPosition: number, content: JSX.Element })
 {
     // Find the sequence/corner index of the block and calculate sequence properties
     const sequenceIndex = Math.ceil(Math.sqrt(itemPosition));
@@ -20,11 +20,6 @@
     }
 
     return (
-        <div
-            style={{ gridColumn: x, gridRow: y }}
-            key={itemPosition}
-        >
-            {content}
-        </div>
+        <div style={{ gridColumn: x, gridRow: y }}>{content}</div>
     );
 }

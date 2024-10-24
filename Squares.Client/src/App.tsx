@@ -18,7 +18,7 @@ export default function App()
             setSquares(squareArray);
         } catch (error)
         {
-            const retryAfter = 1; // Retry delay in seconds
+            const retryAfter = 2; // Retry delay in seconds
             console.log(`Retry in: ${retryAfter} seconds`);
             setTimeout(fetchData, retryAfter * 1000);
         }
@@ -50,7 +50,7 @@ export default function App()
 
     return (
         <div className="main">
-            <div>
+            <div className="button-container">
                 <button onClick={addButtonHandler}>Lägg till ruta</button>
                 <button onClick={clearButtonHandler}>Rensa</button>
             </div>

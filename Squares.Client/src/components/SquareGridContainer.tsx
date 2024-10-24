@@ -6,7 +6,7 @@ export default function SquareGridContainer({ orderedElementArray }: { orderedEl
     return (
         <div className="grid-container" style={{ gridTemplateColumns: `repeat(${gridLength}, 1fr)`, gridTemplateRows: `repeat(${gridLength}, 1fr)`}}>
             {orderedElementArray.map((element, index) => (
-                GridItem(index + 1, element)
+                <GridItem key={index} itemPosition={(index + 1)} content={element} />
             ))}
         </div>
     );
