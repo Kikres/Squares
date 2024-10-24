@@ -1,14 +1,12 @@
-import IGridItem from "../models/interface/iGridItem";
-import gridItem from "./gridItem";
+import GridItem from "./GridItem";
 
-export default function squareGridContainer(itemArray: IGridItem[])
+export default function SquareGridContainer({ orderedElementArray }: { orderedElementArray: JSX.Element[] })
 {
-    const gridLength: number = Math.ceil(Math.sqrt(itemArray.length));
-
+    const gridLength: number = Math.ceil(Math.sqrt(orderedElementArray.length));
     return (
         <div className="grid-container" style={{ gridTemplateColumns: `repeat(${gridLength}, 1fr)`, gridTemplateRows: `repeat(${gridLength}, 1fr)`}}>
-            {itemArray.map((item) => (
-                gridItem(gridLength, item)
+            {orderedElementArray.map((element, index) => (
+                GridItem(index + 1, element)
             ))}
         </div>
     );

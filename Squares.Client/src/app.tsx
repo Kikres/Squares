@@ -1,27 +1,26 @@
 ﻿import { useEffect, useState } from 'react';
-import { clearBlockAsync, getBlockAsync, postBlockAsync } from './api.jsx';
-import { randomHexColor } from './util.jsx';
-import squareGridContainer from './components/squareGridContainer.jsx';
-import { SquareGridItemWrapper } from "./models/squareGridItemWrapper.jsx";
-import BlockDto from './models/blockDto.jsx';
+import { clearBlockAsync, getBlockAsync, postBlockAsync } from './api';
+import { randomHexColor } from './util';
+import SquareGridContainer from './components/SquareGridContainer';
+import BlockDto from './models/BlockDto';
+import Block from './components/Block';
 
-export default function app()
+export default function App()
 {
-    const [squares, setSquares] = useState<SquareGridItemWrapper<BlockDto>[]>([]);
+    const [squares, setSquares] = useState<BlockDto[]>([]);
+    const orderedElementArray = squares.map((block) => (<Block backgroundColorHex={block.hexColor} />));
 
     const fetchData = async () =>
     {
         try
         {
             const squareArray = await getBlockAsync();
-            setSquares(squareArray.map(x => new SquareGridItemWrapper<BlockDto>(x, x.position, x.hexColor)));
-
-        }
-        catch (e)
+            setSquares(squareArray);
+        } catch (error)
         {
-            const retryAfter = 1; // Seconds
+            const retryAfter = 1; // Retry delay in seconds
             console.log(`Retry in: ${retryAfter} seconds`);
-            setTimeout(() => fetchData(), retryAfter * 1000);
+            setTimeout(fetchData, retryAfter * 1000);
         }
     };
 
@@ -33,25 +32,20 @@ export default function app()
 
     const addButtonHandler = async () =>
     {
-        // Guard against generating the same color twice in a row
-        let backgroundHexColor = "";
-        while (squares[squares.length - 1]?.backgroundHexColor === backgroundHexColor || backgroundHexColor === "")
+        let hexColor = '';
+        while (squares[squares.length - 1]?.hexColor === hexColor || hexColor === '')
         {
-            backgroundHexColor = randomHexColor();
+            hexColor = randomHexColor();
         }
 
-        await postBlockAsync(new BlockDto(squares.length + 1, backgroundHexColor));
-
-        // Refresh data to render updated grid
-        fetchData();
-    }
+        await postBlockAsync(new BlockDto(squares.length + 1, hexColor));
+        fetchData(); // Refresh data to update the grid
+    };
 
     const clearButtonHandler = async () =>
     {
         await clearBlockAsync();
-
-        // Refresh data to render the empty grid
-        fetchData();
+        fetchData(); // Refresh data to render an empty grid
     };
 
     return (
@@ -60,7 +54,7 @@ export default function app()
                 <button onClick={addButtonHandler}>Lägg till ruta</button>
                 <button onClick={clearButtonHandler}>Rensa</button>
             </div>
-            {squareGridContainer(squares)}
+            <SquareGridContainer orderedElementArray={orderedElementArray} />
         </div>
     );
 }

@@ -2,6 +2,77 @@
   {
     "UserId": "731512d2-ba81-4db9-8176-8628131e2d97",
     "CreationDate": "2024-10-22T22:03:19.209527+02:00",
-    "Blocks": []
+    "Blocks": [
+      {
+        "Position": 1,
+        "HexColor": "#898aaa"
+      },
+      {
+        "Position": 2,
+        "HexColor": "#2070c2"
+      },
+      {
+        "Position": 3,
+        "HexColor": "#d0d36e"
+      },
+      {
+        "Position": 4,
+        "HexColor": "#edb8f4"
+      },
+      {
+        "Position": 5,
+        "HexColor": "#ea9dbf"
+      },
+      {
+        "Position": 6,
+        "HexColor": "#5b2d7a"
+      },
+      {
+        "Position": 7,
+        "HexColor": "#d2deff"
+      },
+      {
+        "Position": 8,
+        "HexColor": "#80c537"
+      },
+      {
+        "Position": 9,
+        "HexColor": "#aad370"
+      },
+      {
+        "Position": 10,
+        "HexColor": "#3a781b"
+      },
+      {
+        "Position": 11,
+        "HexColor": "#8b6850"
+      },
+      {
+        "Position": 12,
+        "HexColor": "#e053d0"
+      },
+      {
+        "Position": 13,
+        "HexColor": "#87aeab"
+      },
+      {
+        "Position": 14,
+        "HexColor": "#106216"
+      },
+      {
+        "Position": 15,
+        "HexColor": "#5735d7"
+      }
+    ]
+  },
+  {
+    "UserId": "66f8cc86-e09a-4bcf-8e55-5ab7a3085668",
+    "CreationDate": "2024-10-24T17:38:42.250708+02:00",
+    "Blocks": [
+      {
+        "Position": 1,
+        "HexColor": "#ffffff"
+      }
+    ]
   }
 ]

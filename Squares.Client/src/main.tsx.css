@@ -45,9 +45,9 @@ html {
     gap: 0.5rem;
 }
 
-.square-item-wrapper {
-    width: 5rem;
-    height: 5rem;
+.block {
+    min-width: 5rem;
+    min-height: 5rem;
     background-color: blue;
     border-radius: 5px;
 }

@@ -61,11 +61,6 @@ public class StorageService
         WriteJsonFile(userList);
     }
 
-    /// <summary>
-    /// Reads the storage JSON file and returns the list of users and their associated block lists.
-    /// If the file is empty or doesn't exist, returns an empty list.
-    /// </summary>
-    /// <returns>A list of User objects.</returns>
     private List<User> ReadJsonFile()
     {
         lock (_fileLock)
@@ -94,10 +89,6 @@ public class StorageService
         }
     }
 
-    /// <summary>
-    /// Writes the list of users and their block data back to the storage JSON file.
-    /// </summary>
-    /// <param name="userList">The list of users and their blocks to save.</param>
     private void WriteJsonFile(List<User> userList)
     {
         lock (_fileLock)

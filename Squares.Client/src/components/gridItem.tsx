@@ -1,18 +1,17 @@
-﻿import IGridItem from "../models/interface/iGridItem";
-
-export default function gridItem(gridLength: number, item: IGridItem) {
-    // Find the corner index of the block
-    const sequenceIndex = Math.ceil(Math.sqrt(item.position));
+﻿export default function GridItem(itemPosition: number, content: JSX.Element)
+{
+    // Find the sequence/corner index of the block and calculate sequence properties
+    const sequenceIndex = Math.ceil(Math.sqrt(itemPosition));
     const sequenceItemLength = sequenceIndex + (sequenceIndex - 1);
     const sequenceMedian = (sequenceItemLength + 1) / 2;
     const skippedItemLength = (sequenceIndex - 1) ** 2;
 
-    // Calculates the position relative to skipped items, bends the sequence to the left around median
-    const actualSequencePosition = item.position - skippedItemLength;
+    // Calculates the position relative to skipped items
+    const actualSequencePosition = itemPosition - skippedItemLength;
 
+    // Downwards pattern that bends the sequence to the left around median
     let x = sequenceMedian;
     let y = sequenceMedian;
-
     if (sequenceMedian != 0 && actualSequencePosition > sequenceMedian) {
         x = sequenceItemLength - actualSequencePosition + 1;
     }
@@ -22,10 +21,10 @@ export default function gridItem(gridLength: number, item: IGridItem) {
 
     return (
         <div
-            className={item.cssClass}
-            style={{ gridColumn: x, gridRow: y, backgroundColor: item.backgroundHexColor }}
-            key={item.position}
+            style={{ gridColumn: x, gridRow: y }}
+            key={itemPosition}
         >
+            {content}
         </div>
     );
 }

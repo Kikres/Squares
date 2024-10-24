@@ -1,4 +1,4 @@
-import BlockDto from "./models/blockDto";
+import BlockDto from "./models/BlockDto";
 
 const BASE_URL = `/api/`;
 
