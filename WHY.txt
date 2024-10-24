@@ -1,1 +1,8 @@
-F�r att se vad jag hade gjort med uppfigten om jag �ngnat lite mer tid, byggt i typescript, och kollat lite CS b�cker :)
+﻿För att se vad jag hade gjort med uppfigten om jag ängnat lite mer tid, byggt i typescript, och kollat lite CS böcker :)
+
+
+
+Anteckningar:
+
+För att simulera deras sekvens kan jag skapa en datastruktur som representerar en lista av antal "bitar" som behövs för att skapa nästa storlek kvadrat. Geometrisk sekvens x+(x-1) | x ∈ Z+.
+Ur ett skalbart/återanvändbart perspektiv gör jag en komponent. Kan återanvändas för att visa produktkort eller liknande om jag gör den generisk nog.

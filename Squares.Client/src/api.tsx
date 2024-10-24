@@ -1,14 +1,18 @@
+import BlockDto from "./models/blockDto";
+
 const BASE_URL = `/api/`;
 
-export async function getBlockAsync()
+export async function getBlockAsync(): Promise<BlockDto[]>
 {
     try
     {
         const response = await fetch(BASE_URL + "block");
+
         if (!response.ok)
         {
             throw new Error(`Failed to fetch data (getBlocks): ${response.status} ${response.statusText}`);
         }
+
         return await response.json();
     } catch (error)
     {
@@ -17,9 +21,9 @@ export async function getBlockAsync()
     }
 }
 
-export async function postBlockAsync(block)
+export async function postBlockAsync(blockDto: BlockDto): Promise<void>
 {
-    if (!block || !block.position || !block.hexColor)
+    if (!blockDto || !blockDto.position || !blockDto.hexColor)
     {
         throw new Error("Invalid block data");
     }
@@ -28,7 +32,7 @@ export async function postBlockAsync(block)
     {
         const response = await fetch(BASE_URL + "block", {
             method: "POST",
-            body: JSON.stringify(block),
+            body: JSON.stringify(blockDto),
             headers: {
                 "Content-Type": "application/json",
             },
@@ -45,11 +49,17 @@ export async function postBlockAsync(block)
     }
 }
 
-export class Block
+export async function clearBlockAsync(): Promise<void>
 {
-    constructor(position, hexColor)
+    try
     {
-        this.position = position;
-        this.hexColor = hexColor;
+        const response = await fetch(BASE_URL + "block", {
+            method: "DELETE"
+        });
+    } catch (error)
+    {
+        console.error("Error in clearBlockAsync:", error);
+        throw error;
     }
 }
+
