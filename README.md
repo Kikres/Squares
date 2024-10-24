@@ -1,7 +1,3 @@
-Based on the updates you've provided, here's a revised README that incorporates your changes and the new features. It highlights the transition to TypeScript, the addition of Swagger and versioning, and reflects your personal notes. 
-
----
-
 # Squares Project
 
 This project is a web application that dynamically generates blocks with random colors upon each button click in a square formation. It is built with **React.js** and **TypeScript** on the frontend and a **.NET/C# API** for the backend. The position and color of each square are stored in a JSON file, allowing the layout to persist across page reloads.
@@ -74,7 +70,7 @@ The API documentation is automatically generated and can be accessed via Swagger
 
 I drew inspiration from your demo on the challenge and post, leading to significant enhancements in my project. Below are some personal reflections and changes made during the update:
 
-- To simulate the sequence, I created a data structure representing a list of "pieces" needed to create the next size square. The geometric sequence is defined as x + (x - 1) where x ∈ Z^+.
+- To simulate the sequence, I created a data structure representing a list of "pieces" needed to create the next size square. The arithmetic sequence is defined as x + (x - 1) where x ∈ Z^+.
 - From a scalable and reusable perspective, I developed a generic component that can be reused for displaying product cards or similar items.
 - Removed summary comments from private methods, as their context is typically clear from the code.
 - Fixed naming conventions in the React components for improved clarity and consistency.
