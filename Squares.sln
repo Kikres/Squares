@@ -7,11 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Squares.Server", "Squares.S
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "squares.client", "Squares.Client\squares.client.esproj", "{0F695F6F-B0BF-4A54-B76F-8C13597B7CAD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB7B8241-B95D-4AC2-A49C-1DDDC9F1CB03}"
-	ProjectSection(SolutionItems) = preProject
-		info.txt = info.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
