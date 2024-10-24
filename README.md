@@ -8,7 +8,6 @@ This project is a web application that dynamically generates blocks with random 
 - **Backend:** .NET/C#
 - **Storage:** JSON file (via .NET API)
 - **API Documentation:** Swagger
-- **Versioning:** API versioning with v1
 
 ## Requirements
 
@@ -40,7 +39,7 @@ This project is a web application that dynamically generates blocks with random 
      dotnet run
      ```
 
-   The API will start on `http://localhost:5085`.
+   The API will start on [http://localhost:5085](http://localhost:5085).
 
 3. **Frontend (React)**
 
@@ -58,7 +57,7 @@ This project is a web application that dynamically generates blocks with random 
      npm run dev
      ```
 
-   The React app will run on `http://localhost:5173`.
+   The React app will run on [http://localhost:5173](http://localhost:5173).
 
 ## API Documentation
 
