@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Squares.Server.Models;
+using Squares.Server.Models.Dto.v1;
 using Squares.Server.Services;
+using System.Text.RegularExpressions;
 
 namespace Squares.server.Controllers;
 
+[ApiController]
 [Area("api")]
 [Route("api/[controller]")]
 public class BlockController : ControllerBase
@@ -16,11 +19,15 @@ public class BlockController : ControllerBase
     }
 
     /// <summary>
-    /// Retrieves the list of blocks for the user.
+    /// Retrieves the list of blocks for the user based on the cookie-stored user ID.
     /// </summary>
-    /// <returns>A list of BlockDto objects.</returns>
+    /// <remarks>
+    /// Retrieves the user ID from the cookie or generates a new one if it doesn't exist. 
+    /// The method retrieves the blocks associated with the user and returns them as a list of <see cref="BlockDto"/> objects.
+    /// </remarks>
+    /// <response code="200">Returns a list of <see cref="BlockDto"/> objects for the user associated with the cookie-based user ID.</response>
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<BlockDto>))]
     public IActionResult GetBlocks()
     {
         var userId = SolveUserId();
@@ -34,8 +41,13 @@ public class BlockController : ControllerBase
     /// <summary>
     /// Adds a new block to the user's block list.
     /// </summary>
-    /// <param name="blockDto">BlockDto containing the block data.</param>
-    /// <returns>Status 200 OK if successful.</returns>
+    /// <remarks>
+    /// Retrieves the user ID from the cookie or generates a new one if it doesn't exist. 
+    /// The block is validated to ensure the position and HexColor are correctly set before being added to the user's block list.
+    /// </remarks>
+    /// <param name="blockDto">The block data to be added, represented by a <see cref="BlockDto"/> object.</param>
+    /// <response code="200">The block was successfully added to the user's block list.</response>
+    /// <response code="400">Returns a bad request if the block's data is invalid (e.g., missing HexColor).</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -50,7 +62,7 @@ public class BlockController : ControllerBase
             blockDto.Position = blockList.Count + 1;
         }
 
-        if (string.IsNullOrEmpty(blockDto.HexColor))
+        if (string.IsNullOrEmpty(blockDto.HexColor) || !Regex.Match(blockDto.HexColor, @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$").Success)
         {
             return BadRequest("HexColor cannot be empty.");
         }
@@ -59,6 +71,23 @@ public class BlockController : ControllerBase
         blockList.Add(blockEntity);
 
         _storageService.UpsertUserBlocks(userId, blockList);
+        return Ok();
+    }
+
+    /// <summary>
+    /// Deletes all blocks from the user's block list.
+    /// </summary>
+    /// <remarks>
+    /// Retrieves the user ID from the cookie or generates a new one if it doesn't exist. 
+    /// This action will remove all blocks associated with the user.
+    /// </remarks>
+    /// <response code="200">All blocks were successfully deleted from the user's block list.</response>
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult ClearBlocks()
+    {
+        var userId = SolveUserId();
+        _storageService.ClearUserBlocks(userId);
         return Ok();
     }
 
